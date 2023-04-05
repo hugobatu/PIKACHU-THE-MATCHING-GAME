@@ -62,7 +62,6 @@ void generateMap(pokemon **&map)
         timesRandom = 2;
         totalCell--;
     }
-
 }
 
 void deleteMap(pokemon **map)
@@ -119,7 +118,6 @@ void pokemon::drawPlayingBox(int color)
 {   
     if (matched == 1)
         return;
-    int xCurrent = x + 1, yCurrent = y + 1;
     for (int i = 0; i < 5; i++) {
         gotoxy(x * 10, y * 4 + i);
         cout << box[i];

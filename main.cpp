@@ -3,11 +3,29 @@
 #include "console_settings.h"
 #include "gameController.h"
 
+#include <chrono>
+#include <thread>
+
+using namespace chrono;
 using namespace std;
+
+void gameTimer(int seconds) {
+    auto start = high_resolution_clock::now(); // start timer
+    auto end = start + seconds * duration_cast<std::chrono::seconds>(1s); // calculate end time
+
+    while (high_resolution_clock::now() < end) { // loop until end time is reached
+        auto remaining_time = duration_cast<std::chrono::seconds>(end - high_resolution_clock::now());
+        cout << "Time remaining: " << remaining_time.count() << " seconds" << endl;
+        this_thread::sleep_for(1s); // wait for 1 second
+        system("cls");
+    }
+
+    cout << "Time's up!" << endl; // output when timer is finished
+}
 
 int main()
 {   
-    initConsole(1200, 1100);
+    initConsole(1800, 1100);
     pokemon** map;
 
     //generateForTesting(map);
@@ -69,7 +87,8 @@ int main()
         cout << endl;
         }
     }   */
-
+    playSound(0);   
+    //gameTimer(300);
     player p;
     getPlayerInfo(p);
     playGame(p);

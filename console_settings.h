@@ -1,15 +1,17 @@
 #pragma once
+#pragma comment(lib, "winmm.lib")
 
 #include <cstring>
 #include <string>
 #include <iostream>
 #include <Windows.h>
+#include <vector>
+
+using namespace std;
 
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
-#include <windows.h>
-#include <iostream>
 
 #define BLACK 0
 #define BLUE 1
@@ -54,4 +56,5 @@ void setConsoleColor(int color);
 void setAndCenterWindow();
 void initConsole(int width, int height);
 
+void playSound(int i);
 #endif // CONSOLE_H

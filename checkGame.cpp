@@ -376,32 +376,28 @@ bool Ucheck(pokemon** map, int x1, int y1, int x2, int y2)
 
 bool allCheck(pokemon** map, int x1, int y1, int x2, int y2)
 {
-	if (checkTwoCharacter(map, x1, y1, x2, y2) && CheckSelectedAndMatched(map, x1, y1, x2, y2))
+	if (Icheck(map, x1, y1, x2, y2) == true)
 	{
-		if (Icheck(map, x1, y1, x2, y2) == true)
-		{
 
-			cout << "Icheck";
-			return true;
-		}
-		else if (Lcheck(map, x1, y1, x2, y2) == true)
-
-		{
-			cout << "Lcheck";
-			return true;
-		}
-		else if (Zcheck(map, x1, y1, x2, y2) == true)
-
-		{
-			cout << "Zcheck";
-			return true;
-		}
-		else if (Ucheck(map, x1, y1, x2, y2) == true)
-		{
-			cout << "Ucheck";
-			return true;
-		}
-
+		cout << "Icheck";
+		return true;
 	}
-		return false;
+	else if (Lcheck(map, x1, y1, x2, y2) == true)
+
+	{
+		cout << "Lcheck";
+		return true;
+	}
+	else if (Zcheck(map, x1, y1, x2, y2) == true)
+
+	{
+		cout << "Zcheck";
+		return true;
+	}
+	else if (Ucheck(map, x1, y1, x2, y2) == true)
+	{
+		cout << "Ucheck";
+		return true;
+	}
+	return false;
 }

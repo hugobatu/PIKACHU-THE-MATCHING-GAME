@@ -5,7 +5,7 @@ int width = 10, height = 8;
 void move(pokemon** map, position& pos, int& status, player& p, position selectedPos[], int& couple) {
     int temp, key;
     temp = _getch();
-    if (temp && temp != 224) { // neu ko phai la dau mui ten
+    if (temp && temp != 224 && temp != 'w' && temp != 'W' && temp != 'a' && temp != 'A' && temp != 's' && temp != 'S' && temp != 'd' && temp != 'D') { // neu ko phai la dau mui ten
         if (temp == ESC_KEY) { // neu la ESC
             status = 2;
         }
@@ -272,7 +272,7 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
 }
 
 void playGame(player& p) {
-    srand(time(0));
+    //srand(time(0));
     //getBackground(bg);
 
     pokemon** map = new pokemon * [height];
@@ -285,14 +285,14 @@ void playGame(player& p) {
     gotoxy(70, 0);
     cout << "Life: " << p.life;
 
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
+    //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 2);
     //gotoxy(100, 12);
     //cout << "Press arrow key to move";
     //gotoxy(100, 13);
     //cout << "Press Enter to delete";
     //gotoxy(100, 14);
     //cout << "Press ESC to quit";
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+    //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 
     position selectedPos[] = { {-1, -1}, {-1, -1} };
     int couple = 2;
@@ -339,7 +339,6 @@ void getPlayerInfo(player& p) {
     gotoxy(50, 12);
     cout << "Enter player name: ";
     getline(cin, p.name);
-    cin.ignore();
     p.life = 3;
     p.point = 0;
 }

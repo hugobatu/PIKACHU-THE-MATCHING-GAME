@@ -140,7 +140,7 @@ void initConsole(int width, int height) {
     setConsoleFont(18, L"Consolas");
 
     // Set the console window to be resizable
-    setConsoleResizable(false);
+    setConsoleResizable(true);
 
     // Set the console window to be maximizable
     setConsoleMaximizable(false);
@@ -156,4 +156,10 @@ void initConsole(int width, int height) {
 
     //Set and center window
     setAndCenterWindow();
+}
+
+void playSound(int i)
+{
+    static vector<const wchar_t*> soundFile{ L"slow dancing in the dark.wav"};
+    PlaySound(soundFile[i], NULL, SND_FILENAME | SND_ASYNC);
 }
