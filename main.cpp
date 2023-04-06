@@ -25,6 +25,7 @@ void gameTimer(int seconds) {
 
 int main()
 {   
+    //SetConsoleOutputCP(65001);
     initConsole(1800, 1100);
     pokemon** map;
 
@@ -87,12 +88,13 @@ int main()
         cout << endl;
         }
     }   */
-    playSound(0);   
+
+    //playSound(0);   
     //gameTimer(300);
     player p;
     getPlayerInfo(p);
     playGame(p);
-
+    //cout << "testing";
     deleteMap(map);
     return 0;
 }

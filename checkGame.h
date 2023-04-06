@@ -9,6 +9,7 @@ bool Icheck(pokemon **map, int x1, int y1, int x2, int y2);
 bool Lcheck(pokemon **map, int x1, int y1, int x2, int y2);
 bool Zcheck(pokemon **map, int x1, int y1, int x2, int y2);
 bool Ucheck(pokemon **map, int x1, int y1, int x2, int y2);
+bool checkNext(pokemon** map, int x1, int y1, int x2, int y2);
 
 int findMax(int x, int y);
 int findMin(int x, int y);
@@ -19,6 +20,6 @@ void matchedCell(pokemon **& map, int x1, int y1, int x2, int y2);
 void selectedCell(pokemon **&map, int x1, int y1, int x2, int y2);
 void unselectedCell(pokemon **&map, int x1, int y1, int x2, int y2);
 
-
+bool checkValidPair(pokemon** map, int width, int height);
 
 bool allCheck(pokemon** map, int x1, int y1, int x2, int y2);

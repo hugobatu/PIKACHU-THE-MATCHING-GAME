@@ -1,6 +1,8 @@
-#include "gameView.h"
+﻿#include "gameView.h"
 
 int mapWidth = 10, mapHeight = 8;
+HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+DWORD dwMode = 0;
 
 char box[5][12] = {
             {" --------- "},
@@ -9,6 +11,15 @@ char box[5][12] = {
             {"|         |"},
             {" --------- "}
 };
+
+//char box[5][12] = {
+//    {"╭─────────╮"},
+//    {"│         │"},
+//    {"│         │"},
+//    {"│         │"},
+//    {"╰─────────╯"}
+//};
+
 
 void generateMap(pokemon **&map)
 {   
@@ -118,6 +129,7 @@ void pokemon::drawPlayingBox(int color)
 {   
     if (matched == 1)
         return;
+
     for (int i = 0; i < 5; i++) {
         gotoxy(x * 10, y * 4 + i);
         cout << box[i];
@@ -146,7 +158,7 @@ void pokemon::deleteBox() {
     int xCurrent = x + 1, yCurrent = y + 1;
 
     for (int i = 0; i < 5; i++) {
-        gotoxy(x * 10, y * 4 + i);
+        gotoxy(x * 10, y * 5 + i);
         cout << "           ";
     }
 }

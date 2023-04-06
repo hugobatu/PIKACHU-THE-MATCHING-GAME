@@ -131,16 +131,19 @@ void setAndCenterWindow()
 
 void initConsole(int width, int height) {
     // Set the console window size
-    setConsoleSize(width, height);
+    //setConsoleSize(width, height);
 
     // Set the console window title
     SetConsoleTitle(TEXT("PIKACHU - THE MATCHING GAME"));
-
+    
+    //Maximizing the console when run
+    system("mode 650");
+    
     // Set the console font size and type
-    setConsoleFont(18, L"Consolas");
+    setConsoleFont(16, L"Consolas");
 
     // Set the console window to be resizable
-    setConsoleResizable(true);
+    setConsoleResizable(false);
 
     // Set the console window to be maximizable
     setConsoleMaximizable(false);

@@ -29,7 +29,7 @@ using namespace std;
 
 struct player
 {
-	int point, life;
+	int point, life, hint;
 	string name;
 
 };

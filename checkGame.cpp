@@ -83,6 +83,14 @@ bool checkLineY(pokemon** map, int x1, int x2, int y)
 	return true;
 }
 
+bool checkNext(pokemon** map, int x1, int y1, int x2, int y2)
+{
+	if ((x1 == x2) && (y1 == y2 + 1 || y1 == y2 - 1))
+		return true;
+	else if ((y1 == y2) && (x1 == x2 + 1 || x1 == x2 - 1))
+		return true;
+	return false;
+}
 
 bool Icheck(pokemon** map, int x1, int y1, int x2, int y2)
 {
@@ -316,7 +324,7 @@ bool Ucheck(pokemon** map, int x1, int y1, int x2, int y2)
 		}
 	}
 	// u xuong
-	for (int i = n + 1; i < 7; i++)
+	for (int i = n + 1; i <= 7; i++)
 	{
 		if (map[i][x2].matched == 1)
 		{
@@ -376,28 +384,72 @@ bool Ucheck(pokemon** map, int x1, int y1, int x2, int y2)
 
 bool allCheck(pokemon** map, int x1, int y1, int x2, int y2)
 {
-	if (Icheck(map, x1, y1, x2, y2) == true)
-	{
-
-		cout << "Icheck";
-		return true;
-	}
-	else if (Lcheck(map, x1, y1, x2, y2) == true)
-
-	{
+	if (Lcheck(map, x1, y1, x2, y2) == true)
+	{	
+		gotoxy(90, 0);
 		cout << "Lcheck";
 		return true;
 	}
 	else if (Zcheck(map, x1, y1, x2, y2) == true)
-
 	{
+		gotoxy(90, 0);
 		cout << "Zcheck";
 		return true;
 	}
+	else if (x1 == x2 || y1 == y2)
+	{
+		if (checkNext(map, x1, y1, x2, y2) == true)
+		{
+			gotoxy(90, 0);
+			cout << "Nextcheck";
+			return true;
+		}
+		else if (Icheck(map, x1, y1, x2, y2) == true)
+		{
+			gotoxy(90, 0);
+			cout << "Icheck";
+			return true;
+		}
+		else if (Ucheck(map, x1, y1, x2, y2) == true)
+		{
+			gotoxy(90, 0);
+			cout << "Ucheck";
+			return true;
+		}
+	}
 	else if (Ucheck(map, x1, y1, x2, y2) == true)
 	{
+		gotoxy(90, 0);
 		cout << "Ucheck";
 		return true;
+	}
+
+	return false;
+}
+
+bool checkValidPair(pokemon** map, int width, int height) {
+	char check = 'A';
+	while (check >= 'A' && check <= 'Z') {
+		int cnt = 0;
+		int* pos = new int[(height - 2) * (width - 2)];
+		for (int i = 1; i < height - 1; i++) {
+			for (int j = 1; j < width - 1; j++) {
+				if (map[i][j].chr == check && map[i][j].matched == 0) {
+					pos[cnt++] = i;
+					pos[cnt++] = j;
+				}
+			}
+		}
+		for (int i = 0; i < cnt - 2; i += 2) {
+			for (int j = i + 2; j < cnt; j += 2) {
+				if (allCheck(map, pos[i + 1], pos[i], pos[j + 1], pos[j])) {
+					delete[] pos;
+					return true;
+				}
+			}
+		}
+		check++;
+		delete[] pos;
 	}
 	return false;
 }
