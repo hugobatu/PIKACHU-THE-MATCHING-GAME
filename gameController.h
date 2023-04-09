@@ -1,25 +1,29 @@
 ﻿#pragma once
 
-//#include "checkGame.h"
-#include "tempCheck.h"
+#include "checking.h"
 #include "gameView.h"
+
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
 #include <random>
 
+#include <chrono>
+#include <thread>
+
+using namespace chrono;
 using namespace std;
 
 //Key
 
-#define KEY_UP 72	//Arrow up
-#define KEY_DOWN 80 //Arrow down
-#define KEY_LEFT 75 //Arrow left
-#define KEY_RIGHT 77 //Arrow right
-#define ESC_KEY 27 //Esc key
-#define ENTER_KEY 13 //Enter key
-#define SPACE_KEY 32 //Space key
-#define H_KEY 72 //Help key
+#define KEY_UP 72	    //Arrow up
+#define KEY_DOWN 80     //Arrow down
+#define KEY_LEFT 75     //Arrow left
+#define KEY_RIGHT 77    //Arrow right
+#define ESC_KEY 27      //Esc key
+#define ENTER_KEY 13    //Enter key
+#define SPACE_KEY 32    //Space key
+#define H_KEY 72        //Help key
 
 #define W_UP 87
 #define A_LEFT 65
@@ -40,7 +44,7 @@ using namespace std;
 
 struct player
 {
-	int point, life, hint;
+	int point, life, hint, time;
 	string name;
 
 };
@@ -50,7 +54,10 @@ struct position
 	int x, y;
 };
 
+void moveSuggestionMediumLevel(pokemon** map, position guidePos[], int height, int width);
 
-void move(pokemon** map, position& pos, int& status, player& p, position selectedPos[], int& couple);
-void playGame(player& p);
 void getPlayerInfo(player& p);
+
+void move(pokemon** map, position& pos, int& status, player& p, position selectedPos[], int& couple, int height, int width);
+void playGameMediumLevel(player& p);
+

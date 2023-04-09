@@ -17,24 +17,22 @@ struct pokemon
 	int x;
 	int y;
 	void drawPlayingBox(int);
-	void deleteBox();	
+	void deleteBox();
+	void drawSuggestedBox(int);
 };
 
 
 
 
-//Tao bang de choi game
-void renderBoard(pokemon** map);
+//Tao bang va in ra cac ky tu
+void renderBoard(pokemon** map, int mapHeight, int mapWidth);
 
 //Tao mang 2 chieu va random pokemon
-void generateMap(pokemon **&map);
+void generateMap(pokemon **&map, int mapHeight, int mapWidth);
 
-void generateForTesting(pokemon**& map); //Test mang
 
 //Xoa cap phat dong mang 2 chieu
-void deleteMap(pokemon **map);
-void deleteBoard(pokemon** map);
+void deleteBoard(pokemon** map, int mapHeight, int mapWidth);
 
 
-//In ra pokemons
-void printPokemons(pokemon **map);
+

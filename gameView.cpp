@@ -1,6 +1,7 @@
 ﻿#include "gameView.h"
 
-int mapWidth = 10, mapHeight = 8;
+// 6X8 EASY
+// 8X10 NORMAL
 
 
 char box[5][12] = {
@@ -20,7 +21,7 @@ char box[5][12] = {
 //};
 
 
-void generateMap(pokemon **&map)
+void generateMap(pokemon **&map, int mapHeight, int mapWidth)
 {   
     srand((unsigned int)time(NULL));
 
@@ -74,23 +75,19 @@ void generateMap(pokemon **&map)
     }
 }
 
-void deleteMap(pokemon **map)
-{
-    for (int i = 0; i < mapHeight; i++)
-    {
-        delete[] *(map + i);
-    }
-    delete[] map;
-}
 
-void deleteBoard(pokemon** map)
+
+void deleteBoard(pokemon** map, int mapHeight, int mapWidth)
 {
-    for (int i = 1; i < mapHeight - 1; i++) {
-        for (int j = 1; j < mapWidth - 1; j++) {
-            if (map[i][j].isValid) {
+    for (int i = 1; i < mapHeight - 1; i++) 
+    {
+        for (int j = 1; j < mapWidth - 1; j++) 
+        {
+            if (map[i][j].isValid) 
+            {
                 map[i][j].deleteBox();
                 //if (j < 4) displayBackground(bg, j, i);
-                Sleep(1);
+                Sleep(5);
             }
         }
     }
@@ -102,46 +99,8 @@ void deleteBoard(pokemon** map)
 }
 
 
-void printPokemons(pokemon **map)
-{
-    for (int i = 0; i < mapHeight; i++)
-    {
-        for (int j = 0; j < mapWidth; j++)
-        {
-            cout << map[i][j].chr << " ";
-        }
-        cout << endl;
-    }
-}
 
-void generateForTesting(pokemon**& map)
-{
-    map = new pokemon * [mapHeight];
 
-    //Creating a 2D for game array
-    for (int i = 0; i < mapHeight; i++)
-    {
-        map[i] = new pokemon[mapWidth];
-    }
-
-    for (int i = 0; i < mapHeight; i++)
-    {
-        for (int j = 0; j < mapWidth; j++)
-        {
-            if (i == 0 || i == mapHeight - 1 || j == 0 || j == mapWidth - 1)
-                map[i][j].isValid = 0;
-        }
-    }
-
-    for (int i = 0; i < mapHeight; i++)
-    {
-        for (int j = 0; j < mapWidth; j++)
-        {
-            if (i != 0 && i != mapHeight - 1 && j != 0 && j != mapWidth - 1)
-                map[i][j].chr = 'A';
-        }
-    }
-}
 
 void pokemon::drawPlayingBox(int color)
 {   
@@ -180,7 +139,23 @@ void pokemon::deleteBox() {
         cout << "           ";
     }
 }
-void renderBoard(pokemon** map) 
+
+void pokemon::drawSuggestedBox(int color)
+{
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color + (chr % 6 + 1)); // white background
+    for (int i = 1; i < 4; i++) {
+        gotoxy(x * 10 + 1, y * 4 + i);
+        cout << "         ";
+    }
+
+    gotoxy(x * 10 + 5, y * 4 + 2);
+    cout << chr;
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+}
+
+
+void renderBoard(pokemon** map, int mapHeight, int mapWidth)
 {
     for (int i = 1; i < mapHeight - 1; i++) {
         for (int j = 1; j < mapWidth - 1; j++) {

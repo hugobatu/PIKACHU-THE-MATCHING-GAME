@@ -24,7 +24,7 @@
     <ClInclude Include="console_settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tempCheck.h">
+    <ClInclude Include="checking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClCompile Include="console_settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tempCheck.cpp">
+    <ClCompile Include="checking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

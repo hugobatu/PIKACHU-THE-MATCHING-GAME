@@ -25,7 +25,7 @@ void gameTimer(int seconds) {
 int main()
 {   
     //SetConsoleOutputCP(65001);
-    initConsole(1800, 1100);
+    //initConsole(18, 11);
 
     //generateForTesting(map);
     
@@ -86,11 +86,15 @@ int main()
         }
     }   */
 
-    //playSound(0);   
-    //gameTimer(300);
+
     player p;
     getPlayerInfo(p);
-    playGame(p);
-    //cout << "testing";
+
+    // Start the game function in the main thread
+    playGameMediumLevel(p);
+
+    // Wait for the timer thread to finish
+
+
     return 0;
 }
