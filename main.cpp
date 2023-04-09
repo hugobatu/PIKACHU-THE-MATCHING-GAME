@@ -1,5 +1,4 @@
 #include "gameView.h"
-#include "checkGame.h"
 #include "console_settings.h"
 #include "gameController.h"
 
@@ -27,10 +26,8 @@ int main()
 {   
     //SetConsoleOutputCP(65001);
     initConsole(1800, 1100);
-    pokemon** map;
 
     //generateForTesting(map);
-    generateMap(map);
     
     //Assign to a specific value (to avoid receiving -1 for variables)
     /*int x1 = -2, y1 = -2, x2 = -2, y2 = -2; 
@@ -95,6 +92,5 @@ int main()
     getPlayerInfo(p);
     playGame(p);
     //cout << "testing";
-    deleteMap(map);
     return 0;
 }

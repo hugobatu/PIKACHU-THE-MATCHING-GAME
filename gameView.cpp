@@ -1,8 +1,7 @@
 ﻿#include "gameView.h"
 
 int mapWidth = 10, mapHeight = 8;
-HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-DWORD dwMode = 0;
+
 
 char box[5][12] = {
             {" --------- "},
@@ -24,7 +23,7 @@ char box[5][12] = {
 void generateMap(pokemon **&map)
 {   
     srand((unsigned int)time(NULL));
-    map = new pokemon* [mapHeight];
+
 
     //Creating a 2D for game array
     for (int i = 0; i < mapHeight; i++)
@@ -39,7 +38,7 @@ void generateMap(pokemon **&map)
         for (int j = 0; j < mapWidth; j++)
         {
             if (i == 0 || i == mapHeight - 1 || j == 0 || j == mapWidth - 1)
-                map[i][j].matched = 1;
+                map[i][j].isValid = 0;
         }
     }
 
@@ -79,10 +78,29 @@ void deleteMap(pokemon **map)
 {
     for (int i = 0; i < mapHeight; i++)
     {
-        delete[] * (map + i);
+        delete[] *(map + i);
     }
     delete[] map;
 }
+
+void deleteBoard(pokemon** map)
+{
+    for (int i = 1; i < mapHeight - 1; i++) {
+        for (int j = 1; j < mapWidth - 1; j++) {
+            if (map[i][j].isValid) {
+                map[i][j].deleteBox();
+                //if (j < 4) displayBackground(bg, j, i);
+                Sleep(1);
+            }
+        }
+    }
+
+    for (int i = 0; i < mapHeight; i++) {
+        delete[]map[i];
+    }
+    delete[]map;
+}
+
 
 void printPokemons(pokemon **map)
 {
@@ -111,7 +129,7 @@ void generateForTesting(pokemon**& map)
         for (int j = 0; j < mapWidth; j++)
         {
             if (i == 0 || i == mapHeight - 1 || j == 0 || j == mapWidth - 1)
-                map[i][j].matched = 1;
+                map[i][j].isValid = 0;
         }
     }
 
@@ -127,7 +145,7 @@ void generateForTesting(pokemon**& map)
 
 void pokemon::drawPlayingBox(int color)
 {   
-    if (matched == 1)
+    if (!isValid)
         return;
 
     for (int i = 0; i < 5; i++) {
@@ -135,7 +153,7 @@ void pokemon::drawPlayingBox(int color)
         cout << box[i];
     }
 
-    if (selected == 1) {
+    if (isSelected) {
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color + (chr % 6 + 1)); // white background
         for (int i = 1; i < 4; i++) {
             gotoxy(x * 10 + 1, y * 4 + i);
@@ -158,7 +176,7 @@ void pokemon::deleteBox() {
     int xCurrent = x + 1, yCurrent = y + 1;
 
     for (int i = 0; i < 5; i++) {
-        gotoxy(x * 10, y * 5 + i);
+        gotoxy(x * 10, y * 4 + i);
         cout << "           ";
     }
 }

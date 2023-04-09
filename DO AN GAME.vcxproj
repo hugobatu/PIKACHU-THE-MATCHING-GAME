@@ -127,17 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="checkGame.h" />
     <ClInclude Include="console_settings.h" />
     <ClInclude Include="gameController.h" />
     <ClInclude Include="gameView.h" />
+    <ClInclude Include="tempCheck.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="checkGame.cpp" />
     <ClCompile Include="console_settings.cpp" />
     <ClCompile Include="gameController.cpp" />
     <ClCompile Include="gameView.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tempCheck.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

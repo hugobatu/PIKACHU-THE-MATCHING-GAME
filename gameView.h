@@ -13,8 +13,7 @@ using namespace std;
 struct pokemon
 {
 	char chr = ' ';
-	int selected = 0;
-	int matched = 0;
+	bool isValid = 1, isSelected = 0;
 	int x;
 	int y;
 	void drawPlayingBox(int);
@@ -34,6 +33,8 @@ void generateForTesting(pokemon**& map); //Test mang
 
 //Xoa cap phat dong mang 2 chieu
 void deleteMap(pokemon **map);
+void deleteBoard(pokemon** map);
+
 
 //In ra pokemons
 void printPokemons(pokemon **map);
