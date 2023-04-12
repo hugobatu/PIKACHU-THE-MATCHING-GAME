@@ -131,7 +131,7 @@ void setAndCenterWindow()
 
 void initConsole(int width, int height) {
     // Set the console window size
-    //setConsoleSize(width, height);
+    setConsoleSize(width, height);
 
     // Set the console window title
     SetConsoleTitle(TEXT("PIKACHU - THE MATCHING GAME"));

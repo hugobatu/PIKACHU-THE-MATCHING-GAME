@@ -144,9 +144,9 @@ bool Zcheck(pokemon** map, int x1, int y1, int x2, int y2) {
 }
 
 
-// Ucheck for easy level (4x6 size)
-bool UcheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2) {
-    if (((x1 == x2) && (x1 == 1 || x1 == 6 - 2) || ((y1 == y2) && (y1 == 1 || y2 == 8 - 2)))) {
+bool Ucheck(pokemon** map, int x1, int y1, int x2, int y2, int height, int width) 
+{
+    if (((x1 == x2) && (x1 == 1 || x1 == height - 2) || ((y1 == y2) && (y1 == 1 || y2 == width - 2)))) {
         return true;
     }
     bool c1, c2, c3;
@@ -154,7 +154,7 @@ bool UcheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2) {
 
     x = min(y2, y1);
     y = max(y2, y1);
-    for (int i = 1; i < 8 - 1; i++) {
+    for (int i = 1; i < width - 1; i++) {
         if (i <= x || i >= y) {
             c3 = linecheck(map, x1, i, x2, i);
             if (c3) {
@@ -164,7 +164,7 @@ bool UcheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2) {
                     return true;
                 }
             }
-            else if (i == 1 || i == (8 - 2)) {
+            else if (i == 1 || i == (width - 2)) {
                 c1 = linecheck(map, x1, y1, x1, i);
                 c2 = linecheck(map, x2, y2, x2, i);
                 if ((c1 && c2) || (c1 && y2 == i) || (y1 == i && c2)) {
@@ -175,7 +175,7 @@ bool UcheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2) {
     }
 
 
-    for (int i = 1; i < 6 - 1; i++) {
+    for (int i = 1; i < height - 1; i++) {
         if (i <= x || i >= y) {
             c3 = linecheck(map, i, y1, i, y2);
             if (c3) {
@@ -185,7 +185,7 @@ bool UcheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2) {
                     return true;
                 }
             }
-            else if (i == 1 || i == (6 - 2)) {
+            else if (i == 1 || i == (height - 2)) {
                 c1 = linecheck(map, x1, y1, i, y1);
                 c2 = linecheck(map, x2, y2, i, y2);
                 if ((c1 && c2) || (c1 && x2 == i) || (x1 == i && c2)) {
@@ -197,59 +197,7 @@ bool UcheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2) {
     return false;
 }
 
-bool UcheckMediumLevel(pokemon** map, int x1, int y1, int x2, int y2) {
-    if (((x1 == x2) && (x1 == 1 || x1 == 8 - 2) || ((y1 == y2) && (y1 == 1 || y2 == 10-2)))) {
-        return true;
-    }
-    bool c1, c2, c3;
-    int x, y;
-
-    x = min(y2, y1);
-    y = max(y2, y1);
-    for (int i = 1; i < 10 - 1; i++) {
-        if (i <= x || i >= y) {
-            c3 = linecheck(map, x1, i, x2, i);
-            if (c3) {
-                c1 = linecheck(map, x1, y1, x1, i);
-                c2 = linecheck(map, x2, y2, x2, i);
-                if (c1 && c2) {
-                    return true;
-                }
-            }
-            else if (i == 1 || i == (10 - 2)) {
-                c1 = linecheck(map, x1, y1, x1, i);
-                c2 = linecheck(map, x2, y2, x2, i);
-                if ((c1 && c2) || (c1 && y2 == i) || (y1 == i && c2)) {
-                    return true;
-                }
-            }
-        }
-    }
-
-
-    for (int i = 1; i < 8 - 1; i++) {
-        if (i <= x || i >= y) {
-            c3 = linecheck(map, i, y1, i, y2);
-            if (c3) {
-                c1 = linecheck(map, x1, y1, i, y1);
-                c2 = linecheck(map, x2, y2, i, y2);
-                if (c1 && c2) {
-                    return true;
-                }
-            }
-            else if (i == 1 || i == (8-2)) {
-                c1 = linecheck(map, x1, y1, i, y1);
-                c2 = linecheck(map, x2, y2, i, y2);
-                if ((c1 && c2) || (c1 && x2 == i) || (x1 == i && c2)) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
-
-bool allCheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2)
+bool allCheck(pokemon** map, int x1, int y1, int x2, int y2, int height, int width)
 {
     if (Icheck(map, x1, y1, x2, y2)) {
         return true;
@@ -260,7 +208,7 @@ bool allCheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2)
     else if (Zcheck(map, x1, y1, x2, y2)) {
         return true;
     }
-    else if (UcheckEasyLevel(map, x1, y1, x2, y2)) {
+    else if (Ucheck(map, x1, y1, x2, y2, height, width)) {
         return true;
     }
     return false;
@@ -268,24 +216,8 @@ bool allCheckEasyLevel(pokemon** map, int x1, int y1, int x2, int y2)
 
 
 // Allcheck function for medium level
-bool allCheckMediumLevel(pokemon** map, int x1, int y1, int x2, int y2) {
 
-    if (Icheck(map, x1, y1, x2, y2)) {
-        return true;
-    }
-    else if (Lcheck(map, x1, y1, x2, y2)) {
-        return true;
-    }
-    else if (Zcheck(map, x1, y1, x2, y2)) {
-        return true;
-    }
-    else if (UcheckMediumLevel(map, x1, y1, x2, y2)) {
-        return true;
-    }
-    return false;
-}
-
-bool checkValidPairsMediumLevel(pokemon** map, int height, int width) 
+bool checkValidPairs(pokemon** map, int height, int width) 
 {
     char check = 'A';
     while (check >= 'A' && check <= 'Z') {
@@ -301,7 +233,7 @@ bool checkValidPairsMediumLevel(pokemon** map, int height, int width)
         }
         for (int i = 0; i < cnt - 2; i += 2) {
             for (int j = i + 2; j < cnt; j += 2) {
-                if (allCheckMediumLevel(map, pos[i], pos[i + 1], pos[j], pos[j + 1])) {
+                if (allCheck(map, pos[i], pos[i + 1], pos[j], pos[j + 1], height, width)) {
                     delete[] pos;
                     return true;
                 }

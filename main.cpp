@@ -25,7 +25,7 @@ void gameTimer(int seconds) {
 int main()
 {   
     //SetConsoleOutputCP(65001);
-    //initConsole(18, 11);
+    initConsole(18, 11);
 
     //generateForTesting(map);
     
@@ -91,7 +91,7 @@ int main()
     getPlayerInfo(p);
 
     // Start the game function in the main thread
-    playGameMediumLevel(p);
+    playGame(p, 8, 10);
 
     // Wait for the timer thread to finish
 

@@ -1,9 +1,8 @@
 ﻿#include "gameController.h"
 
-const int mediumWidth = 10, mediumHeight = 8;
-const int easyWidth = 8, easyHeight = 6;
 
-void moveSuggestionMediumLevel(pokemon** map, position guidePos[], int height, int width)
+
+void moveSuggestion(pokemon** map, position guidePos[], int height, int width)
 {   
     for (int i = 1; i < height - 1; i++)
     {
@@ -22,7 +21,7 @@ void moveSuggestionMediumLevel(pokemon** map, position guidePos[], int height, i
                         continue;
                     if (map[i][j].chr == map[k][l].chr)
                     {
-                        if (allCheckMediumLevel(map, i, j, k, l) == true)
+                        if (allCheck(map, i, j, k, l, height, width) == true)
                         {
                             guidePos[0].x = j;
                             guidePos[0].y = i;
@@ -42,8 +41,16 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
     int temp, key;
     temp = _getch();
 
+    if (temp == 82 || temp == 114)
+    {
+        map[pos.y][pos.x].isSelected = 0;
+        shuffleBoard(map, height, width, pos);
+        renderBoard(map, height, width);
+        map[pos.y][pos.x].isSelected = 1;
+        return;
+    }
 
-    if (temp == 72 || temp == 104) 
+    else if (temp == 72 || temp == 104) 
     {
         if (p.hint == 0)
         {
@@ -51,7 +58,7 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
         }
 
         position guidePos[2] = {{0,0},{0,0}};
-        moveSuggestionMediumLevel(map, guidePos, height , width);
+        moveSuggestion(map, guidePos, height , width);
 
         map[guidePos[0].y][guidePos[0].x].isSelected = 1;
         map[guidePos[1].y][guidePos[1].x].isSelected = 1;
@@ -64,14 +71,16 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
         map[guidePos[0].y][guidePos[0].x].isSelected = 0;
         map[guidePos[1].y][guidePos[1].x].isSelected = 0;
 
-        renderBoard(map, height, width);
+        //renderBoard(map, height, width);
 
         p.hint--;
         p.point -= 2;
-        gotoxy(40, 0);
-        cout << "Point: " << p.point;
-        gotoxy(90, 0);
-        cout << "Hint: " << p.hint;
+        gotoxy(103, 9);
+        cout << "           ";
+        gotoxy(103, 9);
+        cout << "POINTS: " << p.point;
+        gotoxy(100, 12);
+        cout << "HINT(S) LEFT: " << p.hint;
         //gotoxy(100, 1);
         //cout << "suggest y1: " << guidePos[1].y;
         //gotoxy(100, 2);
@@ -95,9 +104,14 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
                 map[selectedPos[0].y][selectedPos[0].x].isSelected = 0;
                 couple = 2;
                 selectedPos[0] = { -1, -1 };
+
                 p.life--;
-                gotoxy(70, 0);
-                cout << "Life: " << p.life;
+
+                gotoxy(104, 6);
+                cout << "         ";
+                gotoxy(104, 6);
+                cout << "LIFE: " << p.life;
+
             } // kiem tra lap lai
             else {
                 selectedPos[2 - couple].x = pos.x;
@@ -117,12 +131,13 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
 
                 if (couple == 0) { // neu da chon 1 cap
                     if (map[selectedPos[0].y][selectedPos[0].x].chr == map[selectedPos[1].y][selectedPos[1].x].chr) {  // neu cap nay hop nhau
-                        if (allCheckMediumLevel(map, selectedPos[0].y, selectedPos[0].x, selectedPos[1].y, selectedPos[1].x)) {
+                        if (allCheck(map, selectedPos[0].y, selectedPos[0].x, selectedPos[1].y, selectedPos[1].x, height, width)) {
                             p.point += 3;
-                            gotoxy(40, 0);
+
+                            gotoxy(103, 9);
                             cout << "          ";
-                            gotoxy(40, 0);
-                            cout << "Point: " << p.point;
+                            gotoxy(103, 9);
+                            cout << "POINTS: " << p.point;
 
                             map[selectedPos[0].y][selectedPos[0].x].drawPlayingBox(40);
                             map[selectedPos[1].y][selectedPos[1].x].drawPlayingBox(40);
@@ -142,14 +157,15 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
                             Sleep(500);
 
                             p.point -= 3;
-                            gotoxy(40, 0);
+                            gotoxy(103, 9);
                             cout << "          ";
-                            gotoxy(40, 0);
-                            cout << "Point: " << p.point;
+                            gotoxy(103, 9);
+                            cout << "POINTS: " << p.point;
+
 
                             p.life--;
-                            gotoxy(70, 0);
-                            cout << "Life: " << p.life;
+                            gotoxy(104, 6);
+                            cout << "LIFE: " << p.life;
                         }
                     }
                     else {
@@ -158,16 +174,17 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
                         Sleep(500);
                         //Point
                         p.point -= 3;
-                        gotoxy(40, 0);
+                        gotoxy(103, 9);
                         cout << "          ";
-                        gotoxy(40, 0);
-                        cout << "Point: " << p.point;
+                        gotoxy(103, 9);
+                        cout << "POINTS: " << p.point;
 
                         p.life--;
-                        gotoxy(70, 0);
-                        cout << "Life: " << p.life;
+                        gotoxy(104, 6);
+                        cout << "LIFE: " << p.life;
                     }
-                    // tra ve noi san xuat
+
+                    // Set ve gia tri null ban dau
                     map[selectedPos[0].y][selectedPos[0].x].isSelected = 0;
                     map[selectedPos[1].y][selectedPos[1].x].isSelected = 0;
                     couple = 2;
@@ -197,7 +214,7 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
             }
         }
     }
-    else //neu la dau mui ten
+    else //Dau mui ten
     {
         if ((pos.y != selectedPos[0].y || pos.x != selectedPos[0].x) && (pos.y != selectedPos[1].y || pos.x != selectedPos[1].x)) // ktra xem o nay co dang duoc chon hay khong
             map[pos.y][pos.x].isSelected = 0;
@@ -367,35 +384,38 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
                     }
                 }
             }
-            gotoxy(10, 1);
-            cout << "xCur: " << pos.x;
-            gotoxy(10, 1);
-            cout << "yCur: " << pos.y;
+            //gotoxy(10, 1);
+            //cout << "xCur: " << pos.x;
+            //gotoxy(10, 1);
+            //cout << "yCur: " << pos.y;
         default:
             break;
         }
     }
 }
 
-void playGameMediumLevel(player& p) 
+void playGame(player& p, int height, int width) 
 {
     //srand(time(0));
     //getBackground(bg);
 
 
+    DrawInfoBox(8, 10);
 
+    pokemon** map = new pokemon * [height];
+    generateMap(map, height, width);
 
-    pokemon** map = new pokemon * [mediumHeight];
-    generateMap(map, 8, 10);
+    gotoxy(97, 3);
+    cout << "PLAYER NAME: " << p.name;
 
-    gotoxy(10, 0);
-    cout << "Name: " << p.name;
-    gotoxy(40, 0);
-    cout << "Point: ";
-    gotoxy(70, 0);
-    cout << "Life: " << p.life;
-    gotoxy(90, 0);
-    cout << "Hint: " << p.hint;
+    gotoxy(104, 6);
+    cout << "LIFE: " << p.life;
+
+    gotoxy(103, 9);
+    cout << "POINTS: " << p.point;
+
+    gotoxy(100, 12);
+    cout << "HINT(S) LEFT: " << p.hint;
 
     position selectedPos[] = { {-1, -1}, {-1, -1} };
     int couple = 2;
@@ -404,17 +424,12 @@ void playGameMediumLevel(player& p)
                     // 1. het game 
                     // 2. nguoi choi chon thoat
 
-
-
-
-
-
     while (!status && p.life)
     {
-        gotoxy(50, 1);
-        cout << "xCur: " << curPosition.x;
-        gotoxy(50, 2);
-        cout << "yCur: " << curPosition.y;
+        //gotoxy(50, 1);
+        //cout << "xCur: " << curPosition.x;
+        //gotoxy(50, 2);
+        //cout << "yCur: " << curPosition.y;
 
         gotoxy(10, 1);
         cout << "                    ";
@@ -429,19 +444,18 @@ void playGameMediumLevel(player& p)
 
         map[curPosition.y][curPosition.x].isSelected = 1;
 
-        renderBoard(map, mediumHeight, mediumWidth);
+        renderBoard(map, height, width);
 
-        move(map, curPosition, status, p, selectedPos, couple, mediumHeight, mediumWidth);
+        move(map, curPosition, status, p, selectedPos, couple, height, width);
 
-        if (checkValidPairsMediumLevel(map, mediumHeight, mediumWidth) == false)
+        if (checkValidPairs(map, height, width) == false)
         {
             status = 1;
         }
 
-
     }
 
-    deleteBoard(map, mediumHeight, mediumWidth);
+    deleteBoard(map, height, width);
     Sleep(500);
     system("cls");
 }
@@ -450,7 +464,59 @@ void getPlayerInfo(player& p) {
     gotoxy(50, 10);
     cout << "Enter player name: ";
     getline(cin, p.name);
-    p.life = 99;
+    p.life = 4;
     p.point = 0;
     p.hint = 30;
+}
+
+void shuffleBoard(pokemon** map, int height, int width, position &pos)
+{
+    // Calculate the number of valid pokemon in the map
+    int numValid = 0;
+    int check = 0;
+    for (int i = 1; i < height - 1; i++) {
+        for (int j = 1; j < width - 1; j++) {
+            if (map[i][j].isValid) {
+                numValid++;
+            }
+        }
+    }
+
+    // Copy valid pokemon to a flat array
+    pokemon* validPokemon = new pokemon[numValid];
+    int k = 0;
+    for (int i = 1; i < height - 1; i++) {
+        for (int j = 1; j < width - 1; j++) {
+            if (map[i][j].isValid) {
+                validPokemon[k] = map[i][j];
+                k++;
+            }
+        }
+    }
+
+    // Shuffle the valid pokemon array using Fisher-Yates shuffle
+    srand(time(NULL));
+    for (int i = numValid - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        std::swap(validPokemon[i], validPokemon[j]);
+    }
+
+    // Copy shuffled pokemon back to the map
+    k = 0;
+    for (int i = 1; i < height - 1; i++) {
+        for (int j = 1; j < width - 1; j++) {
+            if (check == 0) {
+                pos.y = i;
+                pos.x = j;
+                check++;
+            }
+            if (map[i][j].isValid) {
+                map[i][j] = validPokemon[k];
+                k++;
+            }
+        }
+    }
+
+    // Free memory
+    delete[] validPokemon;
 }

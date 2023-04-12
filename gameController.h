@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <random>
+#include <stdlib.h>
 
 #include <chrono>
 #include <thread>
@@ -54,10 +55,11 @@ struct position
 	int x, y;
 };
 
-void moveSuggestionMediumLevel(pokemon** map, position guidePos[], int height, int width);
+void moveSuggestion(pokemon** map, position guidePos[], int height, int width);
 
 void getPlayerInfo(player& p);
 
 void move(pokemon** map, position& pos, int& status, player& p, position selectedPos[], int& couple, int height, int width);
-void playGameMediumLevel(player& p);
+void playGame(player& p, int height, int width);
 
+void shuffleBoard(pokemon** map, int height, int width, position& pos);

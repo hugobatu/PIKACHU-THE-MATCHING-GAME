@@ -18,7 +18,6 @@ struct pokemon
 	int y;
 	void drawPlayingBox(int);
 	void deleteBox();
-	void drawSuggestedBox(int);
 };
 
 
@@ -33,6 +32,9 @@ void generateMap(pokemon **&map, int mapHeight, int mapWidth);
 
 //Xoa cap phat dong mang 2 chieu
 void deleteBoard(pokemon** map, int mapHeight, int mapWidth);
+
+//Ve bang choi game
+void DrawInfoBox(int height, int width);
 
 
 
