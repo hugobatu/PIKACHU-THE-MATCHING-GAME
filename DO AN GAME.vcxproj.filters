@@ -18,7 +18,7 @@
     <ClInclude Include="gameController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gameView.h">
+    <ClInclude Include="struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="console_settings.h">
@@ -35,7 +35,7 @@
     <ClCompile Include="gameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameView.cpp">
+    <ClCompile Include="struct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="console_settings.cpp">

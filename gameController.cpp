@@ -1,6 +1,154 @@
 ﻿#include "gameController.h"
 
+char img[22][61];
 
+void renderBoard(pokemon** map, int mapHeight, int mapWidth)
+{
+    for (int i = 1; i < mapHeight - 1; i++) {
+        for (int j = 1; j < mapWidth - 1; j++) {
+            map[i][j].drawPlayingBox(112);
+        }
+    }
+}
+
+void generateMap(pokemon**& map, int mapHeight, int mapWidth)
+{
+    srand((unsigned int)time(NULL));
+
+
+    //Creating a 2D for game array
+    for (int i = 0; i < mapHeight; i++)
+    {
+        map[i] = new pokemon[mapWidth];
+    }
+
+    int timesRandom = 2;
+
+    for (int i = 0; i < mapHeight; i++)
+    {
+        for (int j = 0; j < mapWidth; j++)
+        {
+            if (i == 0 || i == mapHeight - 1 || j == 0 || j == mapWidth - 1)
+                map[i][j].isValid = 0;
+        }
+    }
+
+    for (int i = 1; i < mapHeight - 1; i++)
+    {
+        for (int j = 1; j < mapWidth - 1; j++)
+        {
+            map[i][j].x = j;
+            map[i][j].y = i;
+        }
+    }
+
+    //Random character in the cell, with the number of cells is even
+    int totalCell = ((mapWidth - 2) * (mapHeight - 2)) / 2;
+
+    while (totalCell > 0)
+    {
+        char randomCharacter = 65 + rand() % 26;
+        while (timesRandom > 0)
+        {
+            int index = rand() % (mapWidth * mapHeight);
+            if (map[index / mapWidth][index % mapWidth].chr == ' ')
+            {
+                if (index / mapWidth != 0 && index / mapWidth != (mapHeight - 1) && index % mapWidth != 0 && index % mapWidth != (mapWidth - 1))
+                {
+                    map[index / mapWidth][index % mapWidth].chr = randomCharacter;
+
+                    timesRandom--;
+                }
+            }
+        }
+        timesRandom = 2;
+        totalCell--;
+    }
+}
+
+
+
+void deleteBoard(pokemon** map, int mapHeight, int mapWidth)
+{
+    for (int i = 0; i < mapHeight; i++)
+    {
+        for (int j = 0; j < mapWidth; j++)
+        {
+            if (map[i][j].isValid)
+            {
+                map[i][j].deleteBox();
+                Sleep(5);
+            }
+                
+        }
+    }
+
+    for (int i = 0; i < mapHeight; i++) {
+        delete[]map[i];
+    }
+    delete[]map;
+}
+
+void DrawInfoBox(int height, int width)
+{
+    int infoBoxWidth = 26, infoBoxHeight = 25;
+    int xStar = width * width - 5;
+
+
+
+
+    // Top Border
+    gotoxy(xStar, 4);
+    cout << char(218);
+    for (int x = 1; x < infoBoxWidth - 1; x++)
+    {
+        cout << char(196);
+    }
+    cout << char(191);
+
+
+    //Mid line
+    gotoxy(xStar, 14);
+    cout << char(218);
+    for (int x = 1; x < infoBoxWidth - 1; x++)
+    {
+        cout << char(196);
+    }
+    cout << char(191);
+
+
+
+
+    // Bottom
+    gotoxy(xStar, infoBoxHeight - 1);
+    cout << char(192);
+    for (int x = 1; x < infoBoxWidth - 1; x++)
+    {
+        cout << char(196);
+    }
+    cout << char(217);
+    // Left and Right Border
+    for (int y = 5; y < infoBoxHeight - 1; y++)
+    {
+        gotoxy(xStar, y);
+        cout << char(179);
+        gotoxy(xStar + infoBoxWidth - 1, y);
+        cout << char(179);
+    }
+
+
+    gotoxy(xStar + 1, 15);
+    cout << "Press ARROW key to move";
+    gotoxy(xStar + 4, 18);
+    cout << "Press ENTER or SPACE";
+    gotoxy(xStar + 8, 19);
+    cout << "to choose";
+
+    gotoxy(xStar + 2, 22);
+    cout << "Press H for suggestion";
+
+
+}
 
 void moveSuggestion(pokemon** map, position guidePos[], int height, int width)
 {   
@@ -41,16 +189,8 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
     int temp, key;
     temp = _getch();
 
-    if (temp == 82 || temp == 114)
-    {
-        map[pos.y][pos.x].isSelected = 0;
-        shuffleBoard(map, height, width, pos);
-        renderBoard(map, height, width);
-        map[pos.y][pos.x].isSelected = 1;
-        return;
-    }
 
-    else if (temp == 72 || temp == 104) 
+    if (temp == 72 || temp == 104) 
     {
         if (p.hint == 0)
         {
@@ -81,14 +221,7 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
         cout << "POINTS: " << p.point;
         gotoxy(100, 12);
         cout << "HINT(S) LEFT: " << p.hint;
-        //gotoxy(100, 1);
-        //cout << "suggest y1: " << guidePos[1].y;
-        //gotoxy(100, 2);
-        //cout << "suggest x1: " << guidePos[1].x;
-        //gotoxy(100, 3);
-        //cout << "suggest y2: " << guidePos[0].y;
-        //gotoxy(100, 4);
-        //cout << "suggest x2: " << guidePos[0].x;
+
     }
     if (temp && temp != 224) 
     { // neu ko phai la dau mui ten
@@ -119,15 +252,7 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
                 map[pos.y][pos.x].isSelected = 1;
                 couple--;
 
-                gotoxy(10, 1);
-                cout << "xCurSelected[0]: " << selectedPos[0].x;
-                gotoxy(10, 2);
-                cout << "yCurSelected[0]: " << selectedPos[0].y;
 
-                gotoxy(30, 1);
-                cout << "xCurSelected[1]: " << selectedPos[1].x;
-                gotoxy(30, 2);
-                cout << "yCurSelected[1]: " << selectedPos[1].y;
 
                 if (couple == 0) { // neu da chon 1 cap
                     if (map[selectedPos[0].y][selectedPos[0].x].chr == map[selectedPos[1].y][selectedPos[1].x].chr) {  // neu cap nay hop nhau
@@ -145,11 +270,9 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
 
                             map[selectedPos[0].y][selectedPos[0].x].isValid = 0;
                             map[selectedPos[0].y][selectedPos[0].x].deleteBox();
-                            //if (selectedPos[0].x < 4) displayBackground(bg, selectedPos[0].x, selectedPos[0].y);
 
                             map[selectedPos[1].y][selectedPos[1].x].isValid = 0;
                             map[selectedPos[1].y][selectedPos[1].x].deleteBox();
-                            //if (selectedPos[1].x < 4) displayBackground(bg, selectedPos[1].x, selectedPos[1].y);
                         }
                         else {
                             map[selectedPos[0].y][selectedPos[0].x].drawPlayingBox(70);
@@ -384,10 +507,7 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
                     }
                 }
             }
-            //gotoxy(10, 1);
-            //cout << "xCur: " << pos.x;
-            //gotoxy(10, 1);
-            //cout << "yCur: " << pos.y;
+
         default:
             break;
         }
@@ -396,9 +516,9 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
 
 void playGame(player& p, int height, int width) 
 {
-    //srand(time(0));
-    //getBackground(bg);
 
+
+    
 
     DrawInfoBox(8, 10);
 
@@ -426,20 +546,6 @@ void playGame(player& p, int height, int width)
 
     while (!status && p.life)
     {
-        //gotoxy(50, 1);
-        //cout << "xCur: " << curPosition.x;
-        //gotoxy(50, 2);
-        //cout << "yCur: " << curPosition.y;
-
-        gotoxy(10, 1);
-        cout << "                    ";
-        gotoxy(10, 2);
-        cout << "                    ";
-        gotoxy(30, 1);
-        cout << "                    ";
-        gotoxy(30, 2);
-        cout << "                    ";
-
 
 
         map[curPosition.y][curPosition.x].isSelected = 1;
@@ -469,54 +575,3 @@ void getPlayerInfo(player& p) {
     p.hint = 30;
 }
 
-void shuffleBoard(pokemon** map, int height, int width, position &pos)
-{
-    // Calculate the number of valid pokemon in the map
-    int numValid = 0;
-    int check = 0;
-    for (int i = 1; i < height - 1; i++) {
-        for (int j = 1; j < width - 1; j++) {
-            if (map[i][j].isValid) {
-                numValid++;
-            }
-        }
-    }
-
-    // Copy valid pokemon to a flat array
-    pokemon* validPokemon = new pokemon[numValid];
-    int k = 0;
-    for (int i = 1; i < height - 1; i++) {
-        for (int j = 1; j < width - 1; j++) {
-            if (map[i][j].isValid) {
-                validPokemon[k] = map[i][j];
-                k++;
-            }
-        }
-    }
-
-    // Shuffle the valid pokemon array using Fisher-Yates shuffle
-    srand(time(NULL));
-    for (int i = numValid - 1; i > 0; i--) {
-        int j = rand() % (i + 1);
-        std::swap(validPokemon[i], validPokemon[j]);
-    }
-
-    // Copy shuffled pokemon back to the map
-    k = 0;
-    for (int i = 1; i < height - 1; i++) {
-        for (int j = 1; j < width - 1; j++) {
-            if (check == 0) {
-                pos.y = i;
-                pos.x = j;
-                check++;
-            }
-            if (map[i][j].isValid) {
-                map[i][j] = validPokemon[k];
-                k++;
-            }
-        }
-    }
-
-    // Free memory
-    delete[] validPokemon;
-}

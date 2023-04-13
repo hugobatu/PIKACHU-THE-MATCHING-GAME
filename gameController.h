@@ -1,18 +1,17 @@
 ﻿#pragma once
 
 #include "checking.h"
-#include "gameView.h"
+#include "struct.h"
 
+
+#include <string>
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
 #include <random>
 #include <stdlib.h>
 
-#include <chrono>
-#include <thread>
 
-using namespace chrono;
 using namespace std;
 
 //Key
@@ -26,20 +25,7 @@ using namespace std;
 #define SPACE_KEY 32    //Space key
 #define H_KEY 72        //Help key
 
-#define W_UP 87
-#define A_LEFT 65
-#define S_DOWN 83
-#define D_RIGHT 68
 
-#define ARROW_UP 0x48
-#define ARROW_LEFT 0x4B
-#define ARROW_RIGHT 0x4D
-#define ARROW_DOWN 0x50
-
-#define w_up 119
-#define a_left 97
-#define s_down 115
-#define d_right 100
 
 
 
@@ -58,8 +44,21 @@ struct position
 void moveSuggestion(pokemon** map, position guidePos[], int height, int width);
 
 void getPlayerInfo(player& p);
-
 void move(pokemon** map, position& pos, int& status, player& p, position selectedPos[], int& couple, int height, int width);
 void playGame(player& p, int height, int width);
 
-void shuffleBoard(pokemon** map, int height, int width, position& pos);
+
+//Tao bang va in ra cac ky tu
+void renderBoard(pokemon** map, int mapHeight, int mapWidth);
+
+//Tao mang 2 chieu va random pokemon
+void generateMap(pokemon**& map, int mapHeight, int mapWidth);
+
+
+//Xoa cap phat dong mang 2 chieu
+void deleteBoard(pokemon** map, int mapHeight, int mapWidth);
+
+//Ve bang choi game
+void DrawInfoBox(int height, int width);
+
+
