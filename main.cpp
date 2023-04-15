@@ -10,10 +10,8 @@ using namespace std;
 
 
 int main()
-{   
+{       
     initConsole(18, 11);
-
-
 
 
 
@@ -21,10 +19,10 @@ int main()
     getPlayerInfo(p);
 
    
-    playGame(p, 8, 8);
+    playGame(p, 10, 10);
+    
 
 
-
-
+    
     return 0;
 }

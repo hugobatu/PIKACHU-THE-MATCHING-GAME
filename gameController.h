@@ -10,6 +10,7 @@
 #include <conio.h>
 #include <random>
 #include <stdlib.h>
+#include <fstream>
 
 
 using namespace std;
@@ -62,3 +63,5 @@ void deleteBoard(pokemon** map, int mapHeight, int mapWidth);
 void DrawInfoBox(int height, int width);
 
 
+void getBackground(char bg[][41]);
+void displayBackground(char bg[][41], int x, int y);

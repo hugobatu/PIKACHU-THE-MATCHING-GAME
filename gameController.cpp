@@ -1,6 +1,6 @@
 ﻿#include "gameController.h"
 
-char img[22][61];
+char bg[20][41]; //ADD
 
 void renderBoard(pokemon** map, int mapHeight, int mapWidth)
 {
@@ -14,7 +14,6 @@ void renderBoard(pokemon** map, int mapHeight, int mapWidth)
 void generateMap(pokemon**& map, int mapHeight, int mapWidth)
 {
     srand((unsigned int)time(NULL));
-
 
     //Creating a 2D for game array
     for (int i = 0; i < mapHeight; i++)
@@ -63,7 +62,7 @@ void generateMap(pokemon**& map, int mapHeight, int mapWidth)
         }
         timesRandom = 2;
         totalCell--;
-    }
+    }   
 }
 
 
@@ -77,9 +76,9 @@ void deleteBoard(pokemon** map, int mapHeight, int mapWidth)
             if (map[i][j].isValid)
             {
                 map[i][j].deleteBox();
+                if (j < 4) displayBackground(bg, j, i); //ADD
                 Sleep(5);
             }
-                
         }
     }
 
@@ -270,9 +269,12 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
 
                             map[selectedPos[0].y][selectedPos[0].x].isValid = 0;
                             map[selectedPos[0].y][selectedPos[0].x].deleteBox();
+                            displayBackground(bg, selectedPos[0].x, selectedPos[0].y); //ADD
 
                             map[selectedPos[1].y][selectedPos[1].x].isValid = 0;
                             map[selectedPos[1].y][selectedPos[1].x].deleteBox();
+                            displayBackground(bg, selectedPos[1].x, selectedPos[1].y); //ADD
+
                         }
                         else {
                             map[selectedPos[0].y][selectedPos[0].x].drawPlayingBox(70);
@@ -517,8 +519,7 @@ void move(pokemon** map, position& pos, int& status, player& p, position selecte
 void playGame(player& p, int height, int width) 
 {
 
-
-    
+    getBackground(bg); //ADD
 
     DrawInfoBox(8, 10);
 
@@ -575,3 +576,31 @@ void getPlayerInfo(player& p) {
     p.hint = 30;
 }
 
+void getBackground(char bg[][41]) { //ADD
+    ifstream fin("pukachi.txt");
+    if (fin) {
+        for (int i = 0; i < 20; i++)
+        {
+            for (int j = 0; j < 41; j++)
+            {
+                bg[i][j] = fin.get();
+            }
+            fin.ignore();
+        }
+        fin.close();
+    }
+    else {
+        memset(bg, ' ', sizeof(bg));
+    }
+}
+
+void displayBackground(char bg[][41], int x, int y) { //ADD
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 11; j++) {
+            gotoxy(x * 10 + j, y * 4 + i);
+            cout << bg[y  + i][x * 6 + j];
+        }
+    }
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+}

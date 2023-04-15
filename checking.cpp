@@ -85,7 +85,6 @@ bool Ucheck(pokemon** map, int x1, int y1, int x2, int y2, int height, int width
             return true;
     }
     return false;
-
 }
 
 

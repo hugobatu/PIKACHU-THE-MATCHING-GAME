@@ -19,6 +19,7 @@ struct pokemon
 	int y;
 	void drawPlayingBox(int);
 	void deleteBox();
+	
 };
 
 
